@@ -3,12 +3,25 @@ import json
 import os
 import base64
 import etcd
+import yaml
 
 
-config = {'number_of_bytes': 10, 'host': '127.0.0.1', 'protocol': 'http', 'port': 32786}
+class ConfigLoader(object):
+    @staticmethod
+    def load():
+        raise NotImplementedError("Not implemented")
 
 
-class StorageInterface( object ):
+class YamlConfigLoader(ConfigLoader):
+    @staticmethod
+    def load():
+        try:
+            return yaml.load(open('./config.yml'))
+        except Exception:
+            return None
+
+
+class StorageInterface(object):
     """Some description that tells you it's abstract,
     often listing the methods you're expected to supply."""
     def set( self, key, value, ttl):
@@ -73,8 +86,13 @@ class CacheResource(object):
             '{"key":"' + str(name) + '"}')
 
 
-store = EtcdAdapter(config['host'], config['port'])
+config = YamlConfigLoader.load()
+if config is None:
+    raise Exception("Config can not be loaded")
+
+
+store = EtcdAdapter(config['etcd_connection']['host'], config['etcd_connection']['port'])
+
 
 app = falcon.API()
 app.add_route('/{name}', CacheResource(store))
-
