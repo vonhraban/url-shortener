@@ -55,7 +55,7 @@ class NameGenerator(object):
 
     @staticmethod
     def generate():
-        return base64.urlsafe_b64encode(os.urandom(config['number_of_bytes'])).decode('ascii')
+        return base64.urlsafe_b64encode(os.urandom(config['name_generation']['number_of_bytes'])).decode('ascii')
 
 
 class CacheResource(object):
