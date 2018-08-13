@@ -24,11 +24,12 @@ class CacheResource(object):
             resp.content_type = "application/json"
             resp.body = (
                 '{"moved":"' + url + '"}')
-        else:
-            resp.status = falcon.HTTP_404
-            resp.content_type = "application/json"
-            resp.body = (
-                '{"error":"url not found"}')
+            return
+
+        resp.status = falcon.HTTP_404
+        resp.content_type = "application/json"
+        resp.body = (
+            '{"error":"url not found"}')
 
     def on_post(self, req, resp, name):
         doc = json.load(req.stream)
@@ -45,7 +46,6 @@ if config is None:
     raise Exception("Config can not be loaded")
 
 name_generator = NameGenerator(config)
-
 store = EtcdAdapter(config['etcd_connection']['host'], config['etcd_connection']['port'])
 
 
