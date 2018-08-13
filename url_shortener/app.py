@@ -3,22 +3,12 @@ import json
 import os
 import base64
 import etcd
-import yaml
+from url_shortener.config.loader import YamlConfigLoader
 
-
-class ConfigLoader(object):
-    @staticmethod
-    def load():
-        raise NotImplementedError("Not implemented")
-
-
-class YamlConfigLoader(ConfigLoader):
-    @staticmethod
-    def load():
-        try:
-            return yaml.load(open('./config.yml'))
-        except Exception:
-            return None
+try:
+    CONFIG_FILE = os.environ["CONFIG_FILE"]
+except KeyError:
+    raise Exception('CONFIG_VALUE EV is not set')
 
 
 class StorageInterface(object):
@@ -86,7 +76,7 @@ class CacheResource(object):
             '{"key":"' + str(name) + '"}')
 
 
-config = YamlConfigLoader.load()
+config = YamlConfigLoader.load(CONFIG_FILE)
 if config is None:
     raise Exception("Config can not be loaded")
 
