@@ -49,5 +49,10 @@ name_generator = NameGenerator(config)
 store = EtcdAdapter(config['etcd_connection']['host'], config['etcd_connection']['port'])
 
 
-app = falcon.API()
-app.add_route('/{name}', CacheResource(store, name_generator))
+def init():
+    app = falcon.API()
+    app.add_route('/{name}', CacheResource(store, name_generator))
+    return app
+
+
+app = init()
