@@ -4,4 +4,4 @@ name_generation:
 etcd_connection:
   host: '127.0.0.1'
   protocol: 'http'
-  port: 32798
+  port: 2379
