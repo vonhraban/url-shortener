@@ -29,4 +29,16 @@ def test_shorten_url(client):
 def test_unknown_key(client):
     result = client.simulate_get('/unknown-key')
     assert result.status_code == 404
-    assert result.json['error'] == "url not found"
+
+
+
+def test_broken_payload(client):
+    result = client.simulate_post('/', body='invalid-json')
+    assert result.status_code == 400
+    assert result.json['error'] == "Invalid JSON provided"
+
+    result = client.simulate_post('/', body=json.dumps({
+        'unknown-key': 'some-value'
+    }))
+    assert result.status_code == 400
+    assert result.json['error'] == "`url` parameter is required"
