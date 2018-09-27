@@ -1,6 +1,7 @@
 import yaml
 
-class ConfigLoader(object):
+
+class ConfigLoader:
     @staticmethod
     def load(filename):
         raise NotImplementedError("Not implemented")
