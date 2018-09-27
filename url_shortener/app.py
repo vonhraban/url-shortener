@@ -11,7 +11,7 @@ except KeyError:
     raise Exception('CONFIG_VALUE EV is not set')
 
 
-class CacheResource(object):
+class CacheResource:
 
     def __init__(self, store, name_generator):
         self._store = store

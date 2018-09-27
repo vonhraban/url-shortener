@@ -2,7 +2,7 @@ import base64
 import os
 
 
-class NameGenerator(object):
+class NameGenerator:
 
     def __init__(self, config):
         self._config = config
