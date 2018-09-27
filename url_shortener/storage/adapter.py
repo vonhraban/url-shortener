@@ -1,6 +1,4 @@
-class StorageInterface(object):
-    """Some description that tells you it's abstract,
-    often listing the methods you're expected to supply."""
+class StorageInterface:
     def set( self, key, value, ttl):
         raise NotImplementedError("Not implemented")
 
